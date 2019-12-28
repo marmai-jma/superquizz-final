@@ -1,0 +1,24 @@
+<form *ngIf="quizForm" [formGroup]="quizForm" (ngSubmit)="saveQuiz()" novalidate>
+
+  <app-field
+    label="Titre"
+    [control]="quizForm.get('title')">
+    <input formControlName="title" type="text" class="form-control" placeholder="Titre">
+  </app-field>
+
+  <app-field
+    label="Description"
+    [control]="quizForm.get('description')">
+    <textarea formControlName="description" class="form-control" placeholder="Description" rows="3"></textarea>
+  </app-field>
+
+  <app-field
+    label="Peut ré-essayer les question"
+    [control]="quizForm.get('canRetryQuestion')">
+    <input type="checkbox" formControlName="canRetryQuestion">
+  </app-field>
+
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+  <a routerLink="..">Annuler</a>
+
+</form>

@@ -1,0 +1,16 @@
+<h1>Liste des quizzes ({{ quizList.length }})</h1>
+
+<p>
+  <button class="btn btn-default" (click)="quizList.push({title: 'Quiz bidon'})">Ajouter</button>
+  <button class="btn btn-default" (click)="quizList.pop()">Supprimer</button>
+</p>
+
+<div class="row" *ngIf="quizList.length > 0">
+  <div class="col-sm-6" *ngFor="let quiz of quizList">
+    <app-quiz-item [quiz]="quiz"></app-quiz-item>
+  </div>
+</div>
+
+<div class="alert alert-info" *ngIf="quizList.length === 0">
+  <h4>Aucun quiz à afficher.</h4>
+</div>

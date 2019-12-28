@@ -1,0 +1,62 @@
+<form novalidate [formGroup]="questionForm" (ngSubmit)="submitQuestion()">
+
+  <div class="form-group" [ngClass]="{'has-error': questionForm.get('title').touched && questionForm.get('title').errors}">
+    <label class="control-label">Titre***</label>
+    <input type="text" class="form-control" placeholder="Titre" formControlName="title">
+    <span class="help-block" *ngIf="questionForm.get('title').touched && questionForm.get('title').errors">
+      Ce champ est obligatoire.
+    </span>
+  </div>
+
+  <!-- choices -->
+  <div formArrayName="choices">
+    <div *ngFor="let choice of questionForm.get('choices').controls; let i=index"
+         class="panel panel-default">
+
+      <!-- choice header, show remove button when more than one choice available -->
+      <div class="panel-heading">
+        <span>Choix n° {{i + 1}}</span>
+        <span class="glyphicon glyphicon-remove pull-right"
+              *ngIf="questionForm.get('choices').controls.length > 1"
+              (click)="removeChoice(i)"></span>
+      </div>
+
+      <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+      <div class="panel-body" [formGroupName]="i">
+        <div class="form-group col-xs-2">
+          <label class="control-label">Correct ?</label>
+          <input type="checkbox" formControlName="isCorrect">
+        </div>
+        <div class="form-group col-xs-10">
+          <label class="control-label">Texte</label>
+          <input type="text" class="form-control" formControlName="text">
+          <small [hidden]="questionForm.get('choices').controls[i].controls.text.valid" class="text-danger">
+            Le texte est obligatoire.
+          </small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- new question -->
+  <p class="text-right">
+    <button class="btn btn-info btn-sm" (click)="addChoice()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter un choix
+    </button>
+  </p>
+
+  <div class="form-group">
+    <label>Explication</label>
+    <textarea class="form-control" placeholder="Explication" formControlName="explanation" rows="3"></textarea>
+  </div>
+
+  <p>
+    <button type="submit" class="btn btn-primary"
+            [disabled]="!questionForm.valid">
+      Enregistrer la question
+    </button>
+    <a (click)="cancelEdit()" style="cursor: default">Annuler</a>
+  </p>
+
+</form>
